@@ -1,0 +1,210 @@
+<!-- Yeung Chin To 22084296D, WANG Haoyu 22102084D -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Parking space Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="styles/common.css" rel="stylesheet">
+    <link href="styles/booking.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <!-- Large Screen Header -->
+        <div class="container-fluid p-0 d-none d-lg-block">
+            <div class="row no-gutters">
+                <div class="col-1 bg-white text-right">
+                    <a href="index.html">
+                        <img src="assets/Logo.jpg" alt="Logo" class="img-fluid p-1 logo" style="max-height: 100px;">
+                    </a>
+                </div>
+                <div class="col-11">
+                    <div class="bg-info text-white py-2 d-flex justify-content-between align-items-center">
+                        <a href="https://www.polyu.edu.hk/" class="text-white mx-3">About Us</a>
+                        <span class="mx-4" id="localTime">HKT 22:35</span>
+                    </div>
+                    <div class="bg-white py-3 d-flex justify-content-center align-items-center">
+                        <div class="d-flex justify-content-center flex-grow-1">
+                            <a href="dashboard.html" class="mx-3 nav-link">Dashboard</a>
+                            <a href="booking.html" class="mx-3 nav-link active-link">Booking</a>
+                            <a href="login.html" class="mx-3 nav-link">Login</a>
+                            <a href="register.html" class="mx-3 nav-link">Register</a>
+                        </div>
+                        <a href="profile.html" class="ml-auto">
+                            <img src="assets/profile.png" alt="Profile" class="img-fluid profile-icon">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="m-0">
+
+        <!-- Small and Medium Screen Header -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-info d-lg-none">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand mx-auto" href="index.html">
+                    <img src="assets/Logo.jpg" alt="Logo">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active-link" href="booking.html">Booking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.html">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.html">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container mt-5">
+        <h2 class="mb-4">Parking reservation</h2>
+        <form>
+            <div class="mb-3">
+                <label for="startTime" class="form-label">Start Time</label>
+                <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
+            </div>
+            <div class="mb-3">
+                <label for="endTime" class="form-label">End Time</label>
+                <input type="datetime-local" class="form-control" id="endTime" name="endTime" required>
+            </div>
+        <div class="svg-map-container">
+            <svg class="svg-map" viewBox="0 0 120 80">
+                <g id="row">
+                    <text x="2" y="10" class="row-label">A</text>
+                    <text x="2" y="19" class="row-label">B</text>
+                    <text x="2" y="28" class="row-label">C</text>
+                    <text x="2" y="37" class="row-label">D</text>
+                    <text x="2" y="46" class="row-label">E</text>
+                    <text x="2" y="55" class="row-label">F</text>
+                    <text x="2" y="64" class="row-label">G</text>
+                </g>
+                <g id="col">
+                    <text x="13" y="3" class="col-label">0</text>
+                    <text x="22" y="3" class="col-label">1</text>
+                    <text x="31" y="3" class="col-label">2</text>
+                    <text x="40" y="3" class="col-label">3</text>
+                    <text x="49" y="3" class="col-label">4</text>
+                    <text x="67" y="3" class="col-label">5</text>
+                    <text x="76" y="3" class="col-label">6</text>
+                    <text x="85" y="3" class="col-label">7</text>
+                    <text x="94" y="3" class="col-label">8</text>
+                    <text x="103" y="3" class="col-label">9</text>
+                </g>
+                <g id="rowA" transform="translate(0,4)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="A0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="available" id="A1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="A2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="available" id="A3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="available" id="A4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="A5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="A6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="occupied" id="A7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="A8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="A9"></rect>
+                </g>
+                <g id="rowB" transform="translate(0, 13)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="B0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="selected" id="B1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="B2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="available" id="B3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="occupied" id="B4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="B5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="B6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="available" id="B7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="B8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="B9"></rect>
+                </g>
+                <g id="rowC" transform="translate(0, 22)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="C0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="available" id="C1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="C2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="occupied" id="C3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="available" id="C4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="C5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="C6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="available" id="C7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="C8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="C9"></rect>
+                </g>
+                <g id="rowD" transform="translate(0, 31)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="D0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="available" id="D1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="D2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="available" id="D3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="available" id="D4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="D5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="D6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="available" id="D7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="D8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="D9"></rect>
+                </g>
+                <g id="rowE" transform="translate(0, 40)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="E0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="available" id="E1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="E2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="available" id="E3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="available" id="E4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="E5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="E6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="available" id="E7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="E8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="E9"></rect>
+                </g>
+                <g id="rowF" transform="translate(0, 49)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="F0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="available" id="F1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="F2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="available" id="F3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="available" id="F4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="F5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="F6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="available" id="F7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="F8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="F9"></rect>
+                </g>
+                <g id="rowG" transform="translate(0, 58)">
+                    <rect x="10" y="0" width="8" height="8" class="available" id="G0"></rect>
+                    <rect x="19" y="0" width="8" height="8" class="available" id="G1"></rect>
+                    <rect x="28" y="0" width="8" height="8" class="available" id="G2"></rect>
+                    <rect x="37" y="0" width="8" height="8" class="available" id="G3"></rect>
+                    <rect x="46" y="0" width="8" height="8" class="available" id="G4"></rect>
+                    <rect x="54" y="0" width="10" height="8" class="space" id="space"></rect>
+                    <rect x="64" y="0" width="8" height="8" class="available" id="G5"></rect>
+                    <rect x="73" y="0" width="8" height="8" class="available" id="G6"></rect>
+                    <rect x="82" y="0" width="8" height="8" class="available" id="G7"></rect>
+                    <rect x="91" y="0" width="8" height="8" class="available" id="G8"></rect>
+                    <rect x="100" y="0" width="8" height="8" class="available" id="G9"></rect>
+                </g>
+            </svg>
+        </div>
+        <div class="price-info">
+            Total Price: $<span id="totalPrice">0.00</span>
+        </div>
+        <button class="btn btn-primary mt-3">Proceed to Payment</button>
+    </div>
+    <br><br><br>
+    <footer class="footer mt-auto fixed-bottom">
+        PolyU Parking System
+    </footer>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/booking.js"></script>
+</body>
+</html>

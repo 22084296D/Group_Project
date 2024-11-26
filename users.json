@@ -1,0 +1,35 @@
+[
+    {
+        "userid": "admin",
+        "password": "adminpass",
+        "nickname": "Alice",
+        "email": "none",
+        "gender": "none",
+        "birthdate": "2000-01-01",
+        "profile_image": "static/assets/proflie.jpg",
+        "role": "admin",
+        "enabled": true
+    },
+    {
+        "userid": "bob",
+        "password": "bob1234",
+        "nickname": "Bob",
+        "email": "bob@gamil.com",
+        "gender": "male",
+        "birthdate": "1988-05-12",
+        "profile_image": "images/bob.jpg",
+        "role": "user",
+        "enabled": true
+    },
+    {
+        "userid": "alice",
+        "password": "alice1234",
+        "nickname": "Ali",
+        "email": "alice@gmail.com",
+        "gender": "female",
+        "birthdate": "1989-10-12",
+        "profile_image": "images/alice.jpg",
+        "role": "user",
+        "enabled": true
+    }
+]

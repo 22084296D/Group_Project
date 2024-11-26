@@ -1,0 +1,93 @@
+<!-- Yeung Chin To 22084296D, WANG Haoyu 22102084D -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Transaction History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="styles/common.css" rel="stylesheet">
+    <link href="styles/transaction_history.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <!-- Large Screen Header -->
+        <div class="container-fluid p-0 d-none d-lg-block">
+            <div class="row no-gutters">
+                <div class="col-1 bg-white text-right">
+                    <a href="index.html">
+                        <img src="assets/Logo.jpg" alt="Logo" class="img-fluid p-1 logo" style="max-height: 100px;">
+                    </a>
+                </div>
+                <div class="col-11">
+                    <div class="bg-info text-white py-2 d-flex justify-content-between align-items-center position-relative">
+                        <a href="https://www.polyu.edu.hk/" class="text-white mx-3">About Us</a>
+                        <span class="mx-4" id="localTime">HKT 22:35</span>
+                        <div class="admin-text position-absolute w-100 text-center">Admin</div>
+                    </div>
+                    <div class="bg-white py-3 d-flex justify-content-center">
+                        <a href="parking_management.html" class="mx-3 nav-link">Parking management</a>
+                        <a href="event_management.html" class="mx-3 nav-link">Event management</a>
+                        <a href="tran_history.html" class="mx-3 nav-link active-link">Transaction history</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="m-0">
+
+        <!-- Small and Medium Screen Header -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-info d-lg-none">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand mx-auto" href="index.html">
+                    <img src="assets/Logo.jpg" alt="Logo">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="parking_management.html">Parking management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="event_management.html">Event management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tran_history.html">Transaction History</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Transaction History</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Event</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Ticket Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Event Title 1</td>
+                    <td>User 1</td>
+                    <td>October 31, 2024</td>
+                    <td>$20.00</td>
+                    <td>Parking Space: A1, Time: 10:00 AM - 6:00 PM</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br><br>
+    <footer class="footer mt-auto fixed-bottom">
+        PolyU Parking System
+    </footer>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/transaction_history.js"></script>
+</body>
+</html>
