@@ -21,7 +21,7 @@ document.getElementById('loginButton').addEventListener('click', async () => {
 
         if (response.ok) {
             alert(`Logged as '${data.user.userid}'(${data.user.role})`);
-            window.location.href = '/index.html';
+            window.location.href = '/dashboard.html';
         } else {
             alert(data.message || "Unknown error");
         }
