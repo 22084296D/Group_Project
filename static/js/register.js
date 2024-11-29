@@ -1,11 +1,15 @@
 document.getElementById('registerButton').addEventListener('click', async () => {
-    const username = document.getElementById('username').value.trim();
+    const userid = document.getElementById('userid').value.trim();
     const password = document.getElementById('password').value.trim();
     const repeatPassword = document.getElementById('repeat-password').value.trim();
-    const role = document.getElementById('role').value;
+    const nickname = document.getElementById('nickname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const gender = document.getElementById('gender').value;
+    const birthdate = document.getElementById('birthdate').value;
+    const profileImage = document.getElementById('profileImage').files[0];
 
-    if (!username || !password) {
-        alert("Username and password cannot be empty");
+    if (!userid || !password || !nickname || !email || !gender || !birthdate) {
+        alert("All fields are required");
         return;
     }
 
@@ -14,16 +18,18 @@ document.getElementById('registerButton').addEventListener('click', async () => 
         return;
     }
 
-    if (!role) {
-        alert("Please select your role");
-        return;
-    }
-
     const formData = new FormData();
-    formData.append('username', username);
+    formData.append('username', userid);
     formData.append('password', password);
     formData.append('repeat_password', repeatPassword);
-    formData.append('role', role);
+    formData.append('nickname', nickname);
+    formData.append('email', email);
+    formData.append('gender', gender);
+    formData.append('birthdate', birthdate);
+
+    if (profileImage) {
+        formData.append('profileImage', profileImage);
+    }
 
     try {
         const response = await fetch('/auth/register', {
@@ -34,7 +40,7 @@ document.getElementById('registerButton').addEventListener('click', async () => 
         const result = await response.json();
 
         if (response.ok) {
-            alert(`Welcome, ${username}!\nYou can login with your account now!`);
+            alert(`Welcome, ${nickname}!\nYou can login with your account now!`);
             window.location.href = '/login.html';
         } else {
             alert(result.message);
