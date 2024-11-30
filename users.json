@@ -2,7 +2,7 @@
     {
         "userid": "admin",
         "password": "adminpass",
-        "nickname": "Alice",
+        "nickname": "admin",
         "email": "none",
         "gender": "none",
         "birthdate": "2000-01-01",
