@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (paymentSuccessful) {
             paymentStatus.innerHTML = '<div class="alert alert-success">Payment successful! Your order has been confirmed.</div>';
+            updateElectronicTicket(bookingDetails);
             electronicTicket.style.display = 'block';
         } else {
             paymentStatus.innerHTML = '<div class="alert alert-danger">Payment failed. Please try again.</div>';
@@ -38,5 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function processPayment(cardNumber, cardName, expiryDate, cvv) {
         return true;
+    }
+
+    function updateElectronicTicket(details) {
+        const ticketContainer = document.getElementById('electronicTicket');
+        ticketContainer.innerHTML = `
+            <h4>Electronic Ticket</h4>
+            <p><strong>Parking Space:</strong> ${details.spaceId}</p>
+            <p><strong>Date:</strong> ${new Date(details.startTime).toLocaleDateString()}</p>
+            <p><strong>Time:</strong> ${new Date(details.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
+               ${new Date(details.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+            <p><strong>Order Status:</strong> Confirmed</p>
+        `;
     }
 });
