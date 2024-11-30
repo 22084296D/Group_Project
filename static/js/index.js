@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 fetch('/auth/me').then(response => {
     if (!response.ok) {
         alert("Please login");

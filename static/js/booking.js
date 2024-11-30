@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 const availableSpaces = document.querySelectorAll('.available');
 const totalPriceElement = document.getElementById('totalPrice');
 let selectedSpace = null;

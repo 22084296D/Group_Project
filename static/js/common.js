@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 function updateTime() {
   const now = new Date();
   const hours = now.getHours().toString().padStart(2, '0');
