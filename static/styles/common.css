@@ -37,8 +37,9 @@ img.logo {
 .available {
     fill: green;
 }
-.occupied {
-    fill: red;
+.booked {
+    fill:red;
+    cursor: not-allowed;
 }
 .selected {
     fill: blue;
