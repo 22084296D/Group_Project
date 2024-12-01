@@ -21,6 +21,7 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         const data = await response.json();
 
         if (response.ok) {
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
             alert(`Logged as '${data.user.userid}'(${data.user.role})`);
             window.location.href = '/dashboard.html';
         } else {

@@ -29,7 +29,7 @@
         "gender": "female",
         "birthdate": "1989-10-12",
         "profile_image": "images/alice.jpg",
-        "role": "user",
+        "role": "VIPuser",
         "enabled": true
     }
 ]
