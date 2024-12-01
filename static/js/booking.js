@@ -2,7 +2,32 @@
 const availableSpaces = document.querySelectorAll('.available');
 const totalPriceElement = document.getElementById('totalPrice');
 let selectedSpace = null;
-const pricePerSpace = 50;
+let currentUser = null;
+let pricePerHour = 15; // 默认普通用户每小时价格
+let pricePerDay = 150;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const userJson = localStorage.getItem('currentUser');
+    if (userJson) {
+        currentUser = JSON.parse(userJson);
+        updatePricing();
+    } else {
+        console.error('No user logged in');
+        // 可以在这里添加重定向到登录页面的逻辑
+    }
+});
+
+function updatePricing() {
+    if (currentUser.role === 'VIPuser') {
+        pricePerHour = 10;
+        pricePerDay = 100;
+    } else if (currentUser.role === 'user') {
+        pricePerHour = 15;
+        pricePerDay = 150;
+    } else {
+        console.warn('Unknown user role, using default pricing');
+    }
+}
 
 availableSpaces.forEach(space => {
     space.addEventListener('click', () => {
@@ -16,12 +41,36 @@ availableSpaces.forEach(space => {
 });
 
 function updateTotalPrice() {
-    if (selectedSpace) {
-        totalPriceElement.textContent = (pricePerSpace).toFixed(2);
-    } else {
-        totalPriceElement.textContent = '0.00';
+    if (!currentUser) {
+        console.error('No user logged in');
+        return;
     }
+
+    // 获取预约开始和结束时间
+    const startTime = new Date(document.getElementById('startTime').value);
+    const endTime = new Date(document.getElementById('endTime').value);
+
+    // 计算预约时长（小时）
+    const durationHours = (endTime - startTime) / (1000 * 60 * 60);
+
+    let totalPrice = 0;
+
+    if (durationHours > 10) {
+        // 超过10小时按一天计算
+        totalPrice = pricePerDay;
+    } else {
+        // 不足一小时向上取整
+        const roundedHours = Math.ceil(durationHours);
+        totalPrice = Math.min(roundedHours * pricePerHour, pricePerDay);
+    }
+
+    // 更新总价显示
+    const totalPriceElement = document.getElementById('totalPrice');
+    totalPriceElement.textContent = `${totalPrice.toFixed(2)}`;
 }
+
+document.getElementById('startTime').addEventListener('change', updateTotalPrice);
+document.getElementById('endTime').addEventListener('change', updateTotalPrice);
 
 document.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault();
