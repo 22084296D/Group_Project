@@ -5,6 +5,7 @@ import login from './login.js';
 import mongostore from 'connect-mongo';
 import client from './dbclient.js';
 import paymentRoute from './payment.js';
+import transactionHistoryRoute from './transaction_history.js';
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', login);
 app.use('/payment', paymentRoute);
+app.use('/transaction', transactionHistoryRoute);
 
 app.use(
     '/', 
@@ -43,7 +45,7 @@ app.use(
 
 const PORT = 8080;
 app.listen(PORT, () => {
-    const currentDate = new Date().toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' });
-    console.log(`${currentDate}`);
-    console.log(`Server started at http://127.0.0.1:${PORT}`);
+  const dateTime = new Date().toLocaleString();
+  console.log(dateTime);
+  console.log(`Server started at http://127.0.0.1:${PORT}`);
 });

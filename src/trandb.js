@@ -39,15 +39,14 @@ async function update_history(transactionDetails) {
     }
 }
 
-async function fetch_history(userId) {
+async function fetch_history() {
     try {
         const history = client.db('parkingdb').collection('history');
-        const result = await history.find({ userId: userId }).toArray();
-        return result;
+        return await history.find({}).toArray();
     } catch (err) {
-      console.error('Unable to fetch from database!');
-      return [];
+        console.error('Unable to fetch from database!', err);
+        return [];
     }
-  }
+}
 
 export { init_historydb, update_history, fetch_history };
