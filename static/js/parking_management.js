@@ -1,4 +1,4 @@
-//Yeung Chin To 22084296D,WANG Haoyu 22102084D
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 document.addEventListener("DOMContentLoaded", () => {
     const parkingSpaces = initializeParkingSpaces();
 
