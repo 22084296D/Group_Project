@@ -39,10 +39,14 @@ async function update_history(transactionDetails) {
     }
 }
 
-async function fetch_history() {
+async function fetch_history(userId, spaceId) {
     try {
         const history = client.db('parkingdb').collection('history');
-        const transactions = await history.find({}).toArray();
+        let query = {};
+        if (userId) query.userId = userId;
+        if (spaceId) query.spaceId = spaceId;
+
+        const transactions = await history.find(query).toArray();
         
         return transactions.map(transaction => ({
             userId: transaction.userId,
@@ -60,6 +64,5 @@ async function fetch_history() {
         return [];
     }
 }
-
 
 export { init_historydb, update_history, fetch_history };

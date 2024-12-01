@@ -1,11 +1,12 @@
 import express from 'express';
-import { fetch_history } from './trandb.js';
+import { fetch_history } from './tran_db.js';
 
 const router = express.Router();
 
 router.get('/all', async (req, res) => {
   try {
-    const history = await fetch_history();
+    const { userId, spaceId } = req.query;
+    const history = await fetch_history(userId, spaceId);
     res.json(history);
   } catch (error) {
     console.error('Error fetching transaction history:', error);
