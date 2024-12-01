@@ -1,4 +1,27 @@
 //Yeung Chin To 22084296D, WANG Haoyu 22102084D
+document.addEventListener('DOMContentLoaded', function() {
+    checkLoginStatus();
+});
+
+function checkLoginStatus() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+        displayUserInfo(currentUser);
+    } else {
+        redirectToLogin();
+    }
+}
+
+function displayUserInfo(userData) {
+    document.getElementById('name').value = userData.userid || '';
+    document.getElementById('email').value = userData.email || '';
+}
+
+function redirectToLogin() {
+    alert('Please log in to view your profile.');
+    window.location.href = 'index.html';
+}
+
 document.getElementById('logoutButton').addEventListener('click', async () => {
     try {
         const response = await fetch('/auth/logout', {
@@ -18,34 +41,3 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const userJson = localStorage.getItem('currentUser');
-    if (!userJson) {
-        alert('Please login');
-        window.location.href = 'login.html';
-        return;
-    }
-
-    try {
-        const response = await fetch('/auth/me', {
-            method: 'GET',
-            credentials: 'include'
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch user details');
-        }
-
-        const data = await response.json();
-
-        if (data.status === "success") {
-            document.getElementById('name').value = data.user.nickname || '';
-            document.getElementById('email').value = data.user.email || '';
-        } else {
-            alert(data.message);
-        }
-    } catch (error) {
-        alert("Error fetching user details: " + error.message);
-        console.error('Fetch error:', error);
-    }
-});

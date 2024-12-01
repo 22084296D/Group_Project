@@ -26,6 +26,7 @@ route.post('/login', form.none(), async (req, res) => {
 
         req.session.userid = user.userid;
         req.session.role = user.role;
+        req.session.email = user.email;
         req.session.logged = true;
         req.session.timestamp = Date.now();
 
@@ -34,6 +35,7 @@ route.post('/login', form.none(), async (req, res) => {
             user: {
                 userid: user.userid,
                 role: user.role,
+                email: user.email
             }
         });
     } else {
@@ -64,7 +66,8 @@ route.get('/me', async (req, res) => {
                 status: "success",
                 user: {
                     userid: user.userid,
-                    role: user.role
+                    role: user.role,
+                    email: user.email
                 }
             });
         } else {
