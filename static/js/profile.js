@@ -17,9 +17,15 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
         console.error('Logout error:', error);
     }
 });
-<<<<<<< HEAD
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const userJson = localStorage.getItem('currentUser');
+    if (!userJson) {
+        alert('Please login');
+        window.location.href = 'login.html';
+        return;
+    }
+
     try {
         const response = await fetch('/auth/me', {
             method: 'GET',
@@ -33,8 +39,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (data.status === "success") {
-            document.getElementById('name').value = data.user.nickname;
-            document.getElementById('email').value = data.user.email;
+            document.getElementById('name').value = data.user.nickname || '';
+            document.getElementById('email').value = data.user.email || '';
         } else {
             alert(data.message);
         }
@@ -42,13 +48,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert("Error fetching user details: " + error.message);
         console.error('Fetch error:', error);
     }
-
-=======
-document.addEventListener('DOMContentLoaded', () => {
-    const userJson = localStorage.getItem('currentUser');
-    if (!userJson) {
-        alert('Please login');
-        window.location.href = 'login.html';
-    }
->>>>>>> d880ebef8ce24ca8062f94b61a7dac6201a3cded
 });
