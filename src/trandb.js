@@ -45,9 +45,8 @@ async function fetch_history(userId, spaceId) {
         let query = {};
         if (userId) query.userId = userId;
         if (spaceId) query.spaceId = spaceId;
-
         const transactions = await history.find(query).toArray();
-        
+
         return transactions.map(transaction => ({
             userId: transaction.userId,
             spaceId: transaction.spaceId,
@@ -64,5 +63,6 @@ async function fetch_history(userId, spaceId) {
         return [];
     }
 }
+
 
 export { init_historydb, update_history, fetch_history };
