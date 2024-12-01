@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 import express from 'express';
 import multer from 'multer';
 import { fetch_events, delete_event, create_event } from './eventdb.js';
@@ -8,7 +9,6 @@ const form = multer();
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
 
-// 获取所有事件
 route.get('/all', async (req, res) => {
     try {
         const events = await fetch_events();
@@ -20,7 +20,6 @@ route.get('/all', async (req, res) => {
 });
 
 
-// 创建新事件
 route.post('/create', form.none(), async (req, res) => {
     const eventDetails = {
         title: req.body.title,
