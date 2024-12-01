@@ -89,7 +89,8 @@ document.querySelector('form').addEventListener('submit', (event) => {
         spaceId: selectedSpace.id,
         totalCost: totalPriceElement.textContent,
         startTime: document.getElementById('startTime').value,
-        endTime: document.getElementById('endTime').value
+        endTime: document.getElementById('endTime').value,
+        user: currentUser.userid
     };
 
     localStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
