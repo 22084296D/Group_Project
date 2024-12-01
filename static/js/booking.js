@@ -46,6 +46,22 @@ availableSpaces.forEach(space => {
     });
 });
 
+function checkTimeSelection() {
+    const startTime = document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+    const timePrompt = document.getElementById('timePrompt');
+    const svgContainer = document.getElementById('svgContainer');
+
+    if (startTime && endTime) {
+        timePrompt.style.display = 'none';
+        svgContainer.style.display = 'block';
+        updateTotalPrice();
+    } else {
+        timePrompt.style.display = 'block';
+        svgContainer.style.display = 'none';
+    }
+}
+
 function updateTotalPrice() {
     if (!currentUser) {
         console.error('No user logged in');
@@ -75,8 +91,8 @@ function updateTotalPrice() {
     totalPriceElement.textContent = `${totalPrice.toFixed(2)}`;
 }
 
-document.getElementById('startTime').addEventListener('change', updateTotalPrice);
-document.getElementById('endTime').addEventListener('change', updateTotalPrice);
+document.getElementById('startTime').addEventListener('change', checkTimeSelection);
+document.getElementById('endTime').addEventListener('change', checkTimeSelection);
 
 document.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault();
