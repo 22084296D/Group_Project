@@ -88,6 +88,7 @@ async function createEvent(e) {
 async function deleteEvent(e) {
     const eventId = e.target.dataset.id;
     if (confirm('Are you sure you want to delete this event?')) {
+        e.target.disabled = true; // 禁用按钮
         try {
             const response = await fetch(`/event/delete/${eventId}`, {
                 method: 'DELETE'
@@ -102,6 +103,8 @@ async function deleteEvent(e) {
         } catch (error) {
             console.error('Error deleting event:', error);
             alert('Error deleting event');
+        } finally {
+            e.target.disabled = false; // 重新启用按钮
         }
     }
 }
