@@ -39,4 +39,32 @@ async function create_event(eventDetails) {
     }
 }
 
+async function fetch_events(searchQuery = '') {
+    try {
+        const events = client.db('parkingdb').collection('events');
+        let query = {};
+        if (searchQuery) {
+            query = { $or: [
+                { title: { $regex: searchQuery, $options: 'i' } },
+                { description: { $regex: searchQuery, $options: 'i' } },
+                { venue: { $regex: searchQuery, $options: 'i' } }
+            ]};
+        }
+        const eventsList = await events.find(query).toArray();
+
+        return eventsList.map(event => ({
+            id: event._id,
+            title: event.title,
+            dateTime: event.dateTime,
+            description: event.description,
+            venue: event.venue
+        }));
+    } catch (err) {
+        console.error('Unable to fetch events from database!', err);
+        return [];
+    }
+}
+
+export { init_eventdb, create_event, fetch_events };
+
 

@@ -6,6 +6,7 @@ import mongostore from 'connect-mongo';
 import client from './dbclient.js';
 import paymentRoute from './payment.js';
 import transactionHistoryRoute from './transaction_history.js';
+import eventRoute from './event_management.js'
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 app.use('/auth', login);
 app.use('/payment', paymentRoute);
 app.use('/transaction_history', transactionHistoryRoute)
+app.use('/event', eventRoute)
 
 app.use(
     '/', 
