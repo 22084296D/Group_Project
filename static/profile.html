@@ -28,7 +28,7 @@
                             <a href="booking.html" class="mx-3 nav-link">Booking</a>
                         </div>
                         <a href="profile.html" class="ml-auto">
-                            <img src="assets/profile.png" alt="Profile" class="img-fluid profile-icon">
+                            <img src="assets/profile.png" alt="Profile" class="img-fluid profile-icon" id="profileimg">
                         </a>
                     </div>
                 </div>
@@ -61,20 +61,20 @@
     <div class="container mt-2 text-end">
         <button id="logoutButton" class="btn btn-danger">Logout</button>
     </div>
-    <div class="container mt-5">
+    <div class="container">
         <h2 class="mb-4">User Profile</h2>
         <form>
             <div class="mb-3 text-center">
-                <img src="assets/profile.png" alt="Profile Image" class="img-fluid profile-img mb-3">
+                <img src="assets/profile.png" alt="Profile Image" class="img-fluid profile-img mb-3" id="profileimg">
                 <input type="file" class="form-control" id="profileImage" name="profileImage">
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="John Doe">
+                <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="john.doe@example.com">
+                <input type="email" class="form-control" id="email" name="email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
