@@ -7,6 +7,7 @@ let pricePerHour = 15;
 let pricePerDay = 150;
 let durationHours = 0;
 let totalPrice = 0;
+let role = 'normal';
 
 document.addEventListener('DOMContentLoaded', () => {
     const userJson = localStorage.getItem('currentUser');
@@ -23,6 +24,7 @@ function updatePricing() {
     if (currentUser.role === 'VIPuser') {
         pricePerHour = 10;
         pricePerDay = 100;
+        role = 'VIP';
     } else if (currentUser.role === 'user') {
         pricePerHour = 15;
         pricePerDay = 150;
@@ -30,7 +32,7 @@ function updatePricing() {
         console.warn('Unknown user role, using default pricing');
     }
     const pricelist = document.getElementById('price_list');
-    pricelist.textContent = `$${pricePerHour} per hour, $${pricePerDay} per day (More than 10 hours)`;
+    pricelist.textContent = `(${role}): $${pricePerHour} per hour, $${pricePerDay} per day (More than 10 hours)`;
 }
 
 availableSpaces.forEach(space => {

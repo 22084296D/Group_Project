@@ -17,6 +17,7 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
         console.error('Logout error:', error);
     }
 });
+<<<<<<< HEAD
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -42,4 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Fetch error:', error);
     }
 
+=======
+document.addEventListener('DOMContentLoaded', () => {
+    const userJson = localStorage.getItem('currentUser');
+    if (!userJson) {
+        alert('Please login');
+        window.location.href = 'login.html';
+    }
+>>>>>>> d880ebef8ce24ca8062f94b61a7dac6201a3cded
 });

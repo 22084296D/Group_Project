@@ -23,7 +23,11 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         if (response.ok) {
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             alert(`Logged as '${data.user.userid}'(${data.user.role})`);
-            window.location.href = '/dashboard.html';
+            if(data.user.role === 'admin'){
+                window.location.href = '/parking_management.html'; 
+            }else{
+                window.location.href = '/dashboard.html';
+            }
         } else {
             alert(data.message || "Unknown error");
         }
