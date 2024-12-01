@@ -1,15 +1,15 @@
 import fs from 'fs/promises';
 import client from './dbclient.js';
 
+const eventdb = client.db('parkingdb').collection('events');
 async function init_eventdb() {
     try {
-        const event = client.db('parkingdb').collection('events');
-        const eventcount = await event.countDocuments();
+        const eventcount = await eventdb.countDocuments();
 
         if (eventcount === 0) {
             const readeventdata = await fs.readFile('events.json', 'utf-8');
             const eventData = JSON.parse(readeventdata);
-            const result = await event.insertMany(eventData);
+            const result = await eventdb.insertMany(eventData);
             console.log(`Initially added ${result.insertedCount} events`);
         }
     } catch (err) {
@@ -20,8 +20,7 @@ init_eventdb().catch(console.dir);
 
 async function create_event(eventDetails) {
     try {
-        const events = client.db('parkingdb').collection('events');
-        const result = await events.insertOne({
+        const result = await eventdb.insertOne({
             ...eventDetails,
             createdAt: new Date()
         });
@@ -41,15 +40,16 @@ async function create_event(eventDetails) {
 
 async function fetch_events(eventId) {
     try {
-        const events = client.db('parkingdb').collection('events');
         let query = {};
         if (eventId) query.id = eventId;
-        const eventList = await events.find(query).toArray();
+        const eventList = await eventdb.find(query).toArray();
 
         return eventList.map(event => ({
             id: event.id,
             title: event.title,
-            dateTime: event.dateTime,
+            date: event.date,
+            startTime: event.startTime,
+            endTime: event.endTime,
             description: event.description,
             venue: event.venue
         }));
@@ -59,11 +59,10 @@ async function fetch_events(eventId) {
     }
 }
 
+
 async function delete_event(eventId) {
     try {
-        const events = client.db('parkingdb').collection('events');
-        const result = await events.deleteOne({ id: eventId });
-
+        const result = await eventdb.deleteOne({ id: eventId });
         if (result.deletedCount === 1) {
             console.log(`Successfully deleted event with id ${eventId}`);
             return true;

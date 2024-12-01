@@ -23,7 +23,6 @@ route.get('/all', async (req, res) => {
 // 创建新事件
 route.post('/create', form.none(), async (req, res) => {
     const eventDetails = {
-        id: Date.now(), // 使用时间戳作为临时ID
         title: req.body.title,
         date: req.body.date,
         startTime: req.body.startTime,

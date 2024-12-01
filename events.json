@@ -3,8 +3,8 @@
         "id": 1,
         "title": "Free Car Wash",
         "date": "2026-10-10",
-        "startTime": "10:00 AM",
-        "endTime": "12:00 PM",
+        "startTime": "10:00",
+        "endTime": "12:00",
         "description": "Free Car Wash is provided for all teaching fellows.",
         "venue": "A zone"
     },
@@ -12,8 +12,8 @@
         "id": 2,
         "title": "Free Car Parking",
         "date": "2026-11-10",
-        "startTime": "10:00 AM",
-        "endTime": "11:00 PM",
+        "startTime": "10:00",
+        "endTime": "11:00",
         "description": "Free Car Parking is provided for all teaching fellows.",
         "venue": "All zone"
     },
@@ -21,8 +21,8 @@
         "id": 3,
         "title": "Overhaul of equipment",
         "date": "2026-12-10", 
-        "startTime": "10:00 AM",
-        "endTime": "12:00 PM",
+        "startTime": "10:00",
+        "endTime": "12:00",
         "description": "C zone is temporarily closed for maintenance.",
         "venue": "C zone"
     },
@@ -30,8 +30,8 @@
         "id": 4,
         "title": "Staff Appreciation Day",
         "date": "2027-01-15",
-        "startTime": "11:00 AM",
-        "endTime": "2:00 PM",
+        "startTime": "11:00",
+        "endTime": "2:00",
         "description": "A special event to appreciate all staff members with food and activities.",
         "venue": "Main Campus Square"
     },
@@ -39,8 +39,8 @@
         "id": 5,
         "title": "Annual Safety Inspection",
         "date": "2027-02-20",
-        "startTime": "9:00 AM",
-        "endTime": "5:00 PM",
+        "startTime": "9:00",
+        "endTime": "5:00",
         "description": "Mandatory safety inspection for all parking facilities.",
         "venue": "All parking zones"
     }

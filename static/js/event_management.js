@@ -25,7 +25,7 @@ function displayEvents(events) {
         const eventElement = document.createElement('div');
         eventElement.className = 'list-group-item';
         eventElement.innerHTML = `
-            <h5>${event.title}</h5>
+            <h5>${event.id}. ${event.title}</h5>
             <p>Date: ${event.date}, Time: ${event.startTime} - ${event.endTime}</p>
             <p>Venue: ${event.venue}</p>
             <p>${event.description}</p>
