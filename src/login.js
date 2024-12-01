@@ -1,7 +1,7 @@
 // Yeung Chin To 22084296D,WANG Haoyu 22102084D
 import express from 'express';
 import multer from 'multer';
-import { init_userdb, validate_user, fetch_user } from './userdb.js';
+import { init_userdb, validate_user, fetch_user, update_user, username_exist } from './userdb.js';
 
 const form = multer();
 const route = express.Router();
@@ -78,6 +78,37 @@ route.get('/me', async (req, res) => {
             status: "failed",
             message: "Unauthorized"
         });
+    }
+});
+
+route.post('/register', form.none(), async (req, res) => {
+    await init_userdb();
+
+    const { userid, password, nickname, email, gender, birthdate } = req.body;
+
+    if (!userid || !password || !nickname || !email || !gender || !birthdate) {
+        return res.status(400).json({ status: 'failed', message: 'All fields are required.' });
+    }
+
+    if (await username_exist(userid)) {
+        return res.status(400).json({ status: 'failed', message: `User ID ${userid} already exists.` });
+    }
+
+    const success = await update_user(userid, password, 'user', true);
+    if (success) {
+        return res.json({
+            status: 'success',
+            message: 'Registration successful! You can log in now.',
+            user: {
+                userid: userid,
+                nickname: nickname,
+                email: email,
+                gender: gender,
+                birthdate: birthdate,
+            },
+        });
+    } else {
+        return res.status(500).json({ status: 'failed', message: 'Account created but unable to save into the database.' });
     }
 });
 
