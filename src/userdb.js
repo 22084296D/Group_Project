@@ -47,40 +47,6 @@ async function validate_user(userid, password) {
     }
 }
 
-async function update_user(userid, password, nickname, email, gender, birthdate, role = 'user', enabled = true) {
-    const usersCollection = client.db('parkingdb').collection('users');
-
-    const userData = { 
-        userid: userid,
-        password: password,
-        nickname: nickname,
-        email: email,
-        gender: gender,
-        birthdate: birthdate,
-        profile_image: "static/assets/profile.jpg",
-        role: role,
-        enabled: enabled,
-    };
-
-    try {
-        const result = await usersCollection.updateOne(
-            { userid: userid },
-            { $set: userData },
-            { upsert: true }
-        );
-
-        if (result.upsertedCount > 0) {
-            console.log('Added 1 user');
-        } else {
-            console.log('Updated 1 user');
-        }
-        return true;
-    } catch (err) {
-        console.error('Unable to update the database!', err);
-        return false;
-    }
-}
-
 async function fetch_user(userid) {
     const usersCollection = client.db('parkingdb').collection('users');
 
@@ -103,6 +69,65 @@ async function username_exist(userid) {
     }
 }
 
-export { init_userdb, validate_user, fetch_user, update_user, username_exist };
+async function update_user(userid, password, nickname, email, gender, birthdate, role = 'user', enabled = true, userimg = null) {
+    const usersCollection = client.db('parkingdb').collection('users');
+
+    const userData = { 
+        userid: userid,
+        password: password,
+        nickname: nickname,
+        email: email,
+        gender: gender,
+        birthdate: birthdate,
+        role: role,
+        enabled: enabled,
+    };
+
+    if (userimg) {
+        userData.userimg = userimg;
+    }
+
+    try {
+        const result = await usersCollection.updateOne(
+            { userid: userid },
+            { $set: userData },
+            { upsert: true }
+        );
+
+        if (result.upsertedCount > 0) {
+            console.log('Added 1 user');
+        } else {
+            console.log('Updated 1 user');
+        }
+        return true;
+    } catch (err) {
+        console.error('Unable to update the database!', err);
+        return false;
+    }
+}
+
+async function update_user_image(userid, userimg) {
+    const usersCollection = client.db('parkingdb').collection('users');
+
+    try {
+        const result = await usersCollection.updateOne(
+            { userid: userid },
+            { $set: { userimg: userimg } }
+        );
+
+        if (result.modifiedCount > 0) {
+            console.log('Updated user image');
+            return true;
+        } else {
+            console.log('No changes made to user image');
+            return false;
+        }
+    } catch (err) {
+        console.error('Unable to update user image in the database!', err);
+        return false;
+    }
+}
+
+export { init_userdb, validate_user, fetch_user, update_user, username_exist, update_user_image };
 
 init_userdb().catch(console.dir);

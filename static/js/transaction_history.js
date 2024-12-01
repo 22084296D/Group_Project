@@ -17,7 +17,12 @@ function fetchTransactionHistory() {
     if (userId) queryParams.append('userId', userId);
     if (spaceId) queryParams.append('spaceId', spaceId);
     fetch(`/transaction/all?${queryParams.toString()}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             const tableBody = document.getElementById('transactionTableBody');
             tableBody.innerHTML = '';
