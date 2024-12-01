@@ -46,8 +46,12 @@ async function fetch_history(userId, spaceId) {
         if (userId) query.userId = userId;
         if (spaceId) query.spaceId = spaceId;
 
+        console.log('Database query:', query);
+
         const transactions = await history.find(query).toArray();
         
+        console.log('Raw transactions:', transactions);
+
         return transactions.map(transaction => ({
             userId: transaction.userId,
             spaceId: transaction.spaceId,
@@ -64,5 +68,6 @@ async function fetch_history(userId, spaceId) {
         return [];
     }
 }
+
 
 export { init_historydb, update_history, fetch_history };

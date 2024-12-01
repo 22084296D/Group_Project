@@ -8,36 +8,48 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 function fetchTransactionHistory() {
-    const userId = document.getElementById('userIdSearch').value;
-    const spaceId = document.getElementById('spaceIdSearch').value;
+    const userId = document.getElementById('userIdSearch').value.trim();
+    const spaceId = document.getElementById('spaceIdSearch').value.trim();
+
+    console.log('Searching with:', { userId, spaceId });
 
     const queryParams = new URLSearchParams();
     if (userId) queryParams.append('userId', userId);
     if (spaceId) queryParams.append('spaceId', spaceId);
 
+    console.log('Request URL:', `/transaction/all?${queryParams.toString()}`);
+
     fetch(`/transaction/all?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
+            console.log('Received data:', data);
             const tableBody = document.getElementById('transactionTableBody');
             tableBody.innerHTML = '';
 
-            data.forEach(transaction => {
+            if (data.length === 0) {
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${transaction.userId || 'N/A'}</td>
-                    <td>${transaction.spaceId || 'N/A'}</td>
-                    <td>${transaction.startTime ? new Date(transaction.startTime).toLocaleString() : 'N/A'}</td>
-                    <td>${transaction.endTime ? new Date(transaction.endTime).toLocaleString() : 'N/A'}</td>
-                    <td>${transaction.totalCost !== undefined ? '$' + transaction.totalCost.toFixed(2) : 
-                         (transaction.totalcost !== undefined ? '$' + transaction.totalcost.toFixed(2) : 'N/A')}</td>
-                    <td>${transaction.paymentMethod || 'N/A'}</td>
-                    <td>${transaction.lastFourDigits || 'N/A'}</td>
-                    <td>${transaction.status || transaction.Status || 'N/A'}</td>
-                    <td>${transaction.timestamp ? new Date(transaction.timestamp).toLocaleString() : 'N/A'}</td>
-                `;
+                row.innerHTML = '<td colspan="9" class="text-center">No results found</td>';
                 tableBody.appendChild(row);
-            });
+            } else {
+                data.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${transaction.userId || 'N/A'}</td>
+                        <td>${transaction.spaceId || 'N/A'}</td>
+                        <td>${transaction.startTime ? new Date(transaction.startTime).toLocaleString() : 'N/A'}</td>
+                        <td>${transaction.endTime ? new Date(transaction.endTime).toLocaleString() : 'N/A'}</td>
+                        <td>${transaction.totalCost !== undefined ? '$' + transaction.totalCost.toFixed(2) : 
+                             (transaction.totalcost !== undefined ? '$' + transaction.totalcost.toFixed(2) : 'N/A')}</td>
+                        <td>${transaction.paymentMethod || 'N/A'}</td>
+                        <td>${transaction.lastFourDigits || 'N/A'}</td>
+                        <td>${transaction.status || transaction.Status || 'N/A'}</td>
+                        <td>${transaction.timestamp ? new Date(transaction.timestamp).toLocaleString() : 'N/A'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
         })
         .catch(error => {
             console.error('Error fetching transaction history:', error);
