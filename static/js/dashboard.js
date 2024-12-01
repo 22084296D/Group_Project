@@ -76,3 +76,4 @@ displayEvents(events);
 //         displayEvents(events);
 //     })
 //     .catch(error => console.error('Error fetching events:', error));
+//
