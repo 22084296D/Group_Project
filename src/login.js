@@ -1,39 +1,10 @@
-//Yeung Chin To 22084296D, WANG Haoyu 22102084D
+// Yeung Chin To 22084296D, WANG Haoyu 22102084D
 import express from 'express';
 import multer from 'multer';
-import { promises as fs } from 'fs';
+import { init_userdb, validate_user, fetch_user } from './userdb.js';
 
 const form = multer();
-const users = new Map();
 const route = express.Router();
-
-async function init_userdb() {
-    if (users.size > 0) return;
-
-    try {
-        const data = await fs.readFile('users.json', 'utf-8');
-        const parsedUsers = JSON.parse(data);
-        parsedUsers.forEach(user => {
-            users.set(user.userid, user); 
-        });
-    } catch (error) {
-        console.error('Error loading users:', error);
-    }
-}
-
-async function validate_user(userid, password) {
-    const user = users.get(userid);
-    
-    if (!user || user.password !== password) {
-        return false;
-    }
-
-    return {
-        userid: user.userid,
-        role: user.role,
-        enabled: user.enabled
-    };
-}
 
 route.post('/login', form.none(), async (req, res) => {
     await init_userdb();
@@ -85,16 +56,23 @@ route.post('/logout', (req, res) => {
     }
 });
 
-route.get('/me', (req, res) => {
+route.get('/me', async (req, res) => {
     if (req.session.logged) {
-        const user = users.get(req.session.userid);
-        return res.json({
-            status: "success",
-            user: {
-                userid: user.userid,
-                role: user.role
-            }
-        });
+        const user = await fetch_user(req.session.userid);
+        if (user) {
+            return res.json({
+                status: "success",
+                user: {
+                    userid: user.userid,
+                    role: user.role
+                }
+            });
+        } else {
+            return res.status(404).json({
+                status: "failed",
+                message: "User not found"
+            });
+        }
     } else {
         return res.status(401).json({
             status: "failed",

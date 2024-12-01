@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 document.getElementById('logoutButton').addEventListener('click', async () => {
     try {
         const response = await fetch('/auth/logout', {
@@ -16,10 +17,35 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
         console.error('Logout error:', error);
     }
 });
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async () => {
     const userJson = localStorage.getItem('currentUser');
     if (!userJson) {
         alert('Please login');
         window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch('/auth/me', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user details');
+        }
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+            document.getElementById('name').value = data.user.nickname || '';
+            document.getElementById('email').value = data.user.email || '';
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        alert("Error fetching user details: " + error.message);
+        console.error('Fetch error:', error);
     }
 });
