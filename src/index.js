@@ -7,6 +7,8 @@ import client from './dbclient.js';
 import paymentRoute from './payment.js';
 import transactionHistoryRoute from './transaction_history.js';
 import eventRoute from './event_management.js'
+import parkingManagementRoute from './parking_management.js';
+
 
 const app = express();
 
@@ -39,6 +41,7 @@ app.use('/auth', login);
 app.use('/payment', paymentRoute);
 app.use('/transaction', transactionHistoryRoute);
 app.use('/event', eventRoute);
+app.use('/parking-management', parkingManagementRoute);
 
 app.use(
     '/', 

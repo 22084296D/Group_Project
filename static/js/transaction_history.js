@@ -45,12 +45,53 @@ function fetchTransactionHistory() {
                         <td>${transaction.lastFourDigits || 'N/A'}</td>
                         <td>${transaction.status || transaction.Status || 'N/A'}</td>
                         <td>${transaction.timestamp ? new Date(transaction.timestamp).toLocaleString() : 'N/A'}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-btn" data-id="${transaction._id}">Delete</button>
+                        </td>
                     `;
                     tableBody.appendChild(row);
                 });
             }
+            addDeleteEventListeners();
         })
         .catch(error => {
             console.error('Error fetching transaction history:', error);
         });
+}
+
+function addDeleteEventListeners() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const transactionId = this.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                deleteTransaction(transactionId);
+            }
+        });
+    });
+}
+
+function deleteTransaction(transactionId) {
+    console.log('Deleting transaction with ID:', transactionId);  // 添加这行
+    fetch(`/transaction/delete/${transactionId}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('Transaction deleted successfully');
+            fetchTransactionHistory(); // 重新加载交易历史
+        } else {
+            alert('Failed to delete transaction');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting transaction:', error);
+        alert('Error deleting transaction');
+    });
 }

@@ -1,5 +1,6 @@
 //Yeung Chin To 22084296D, WANG Haoyu 22102084D
 import fs from 'fs/promises'; 
+import { ObjectId } from 'mongodb';
 import client from './dbclient.js'; 
 
 async function init_historydb() {
@@ -49,6 +50,7 @@ async function fetch_history(userId, spaceId) {
         const transactions = await history.find(query).toArray();
 
         return transactions.map(transaction => ({
+            _id: transaction._id,  // 确保包含 _id 字段
             userId: transaction.userId,
             spaceId: transaction.spaceId,
             startTime: transaction.startTime,
@@ -65,5 +67,23 @@ async function fetch_history(userId, spaceId) {
     }
 }
 
+async function delete_transaction(transactionId) {
+    try {
+        console.log('Deleting transaction with ID:', transactionId);
+        const history = client.db('parkingdb').collection('history');
+        const result = await history.deleteOne({ _id: new ObjectId(transactionId) });
+        
+        if (result.deletedCount === 1) {
+            console.log('Successfully deleted one transaction');
+            return true;
+        } else {
+            console.log('No transaction found with the given id');
+            return false;
+        }
+    } catch (err) {
+        console.error('Error deleting transaction:', err);
+        return false;
+    }
+}
 
-export { init_historydb, update_history, fetch_history };
+export { init_historydb, update_history, fetch_history, delete_transaction };
