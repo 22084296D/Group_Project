@@ -1,3 +1,13 @@
 [
-
+    {
+        "userId":"alice",
+        "spaceId": "A1",
+        "startTime": "2024-12-01T08:15:00.000+00:00",
+        "endTime": "2024-12-01T11:15:00.000+00:00",
+        "totalcost": 100,
+        "paymentMethod": "Credit Card",
+        "lastFourDigits": "6789",
+        "Status": "Confirmed",
+        "timestamp": "2024-12-01T11:15:36.614+00:00"
+    }
 ]
