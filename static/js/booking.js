@@ -50,17 +50,16 @@ function updateTotalPrice() {
 
     const startTime = new Date(document.getElementById('startTime').value);
     const endTime = new Date(document.getElementById('endTime').value);
+    
     if(!isNaN(startTime) && !isNaN(endTime)){
         durationHours = (endTime - startTime) / (1000 * 60 * 60);
     }
 
-    while(durationHours > 24){
-        durationHours -= 24;
-        totalPrice += pricePerDay;
-    }
-
+    const days = Math.floor(durationHours / 24);
+    const hours = durationHours % 24;
+    totalPrice = days * pricePerDay;
     if (durationHours > 10) {
-        totalPrice = pricePerDay;
+        totalPrice += pricePerDay;
     } else {
         // 不足一小时向上取整
         const roundedHours = Math.ceil(durationHours);
