@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUser = JSON.parse(userJson);
         updatePricing();
     } else {
-        console.error('No user logged in');
-        // 可以在这里添加重定向到登录页面的逻辑
+        alert('Please login');
+        window.location.href = 'login.html';
     }
 });
 
@@ -29,6 +29,8 @@ function updatePricing() {
     } else {
         console.warn('Unknown user role, using default pricing');
     }
+    const pricelist = document.getElementById('price_list');
+    pricelist.textContent = `$${pricePerHour} per hour, $${pricePerDay} per day (More than 10 hours)`;
 }
 
 availableSpaces.forEach(space => {
@@ -50,17 +52,16 @@ function updateTotalPrice() {
 
     const startTime = new Date(document.getElementById('startTime').value);
     const endTime = new Date(document.getElementById('endTime').value);
+    
     if(!isNaN(startTime) && !isNaN(endTime)){
         durationHours = (endTime - startTime) / (1000 * 60 * 60);
     }
 
-    while(durationHours > 24){
-        durationHours -= 24;
-        totalPrice += pricePerDay;
-    }
-
+    const days = Math.floor(durationHours / 24);
+    const hours = durationHours % 24;
+    totalPrice = days * pricePerDay;
     if (durationHours > 10) {
-        totalPrice = pricePerDay;
+        totalPrice += pricePerDay;
     } else {
         // 不足一小时向上取整
         const roundedHours = Math.ceil(durationHours);

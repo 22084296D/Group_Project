@@ -20,6 +20,14 @@ let events = [
     }
 ];
 
+document.addEventListener('DOMContentLoaded', () => {
+    const userJson = localStorage.getItem('currentUser');
+    if (!userJson) {
+        alert('Please login');
+        window.location.href = 'login.html';
+    }
+});
+
 function displayEvents(eventList) {
     const listGroup = document.querySelector('.list-group');
     listGroup.innerHTML = '';
