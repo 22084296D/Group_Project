@@ -7,6 +7,8 @@ const router = express.Router();
 router.get('/check-availability', async (req, res) => {
     try {
         const { startTime, endTime } = req.query;
+        console.log('Received check-availability request:', { startTime, endTime });
+
         const history = client.db('parkingdb').collection('history');
         const bookedSpaces = await history.find({
             $or: [
@@ -15,13 +17,24 @@ router.get('/check-availability', async (req, res) => {
                 { endTime: { $gt: new Date(startTime), $lte: new Date(endTime) } }
             ]
         }).toArray();
+        console.log('Query parameters:', { startTime, endTime });
+        console.log('Converted dates:', { 
+            startDate: new Date(startTime), 
+            endDate: new Date(endTime) 
+        });
+        console.log('Raw booked spaces:', bookedSpaces);
+        
+        console.log('Booked spaces:', bookedSpaces.map(booking => booking.spaceId));
 
         res.json(bookedSpaces.map(booking => booking.spaceId));
     } catch (error) {
         console.error('Error checking availability:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+    
 });
+
+
 
 router.post('/book', async (req, res) => {
     try {
