@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "title": "Free Car Wash",
         "date": "2026-10-10",
         "startTime": "10:00",
@@ -9,7 +9,7 @@
         "venue": "A zone"
     },
     {
-        "id": 2,
+        "id": "2",
         "title": "Free Car Parking",
         "date": "2026-11-10",
         "startTime": "10:00",
@@ -18,7 +18,7 @@
         "venue": "All zone"
     },
     {
-        "id": 3,
+        "id": "3",
         "title": "Overhaul of equipment",
         "date": "2026-12-10", 
         "startTime": "10:00",
@@ -27,7 +27,7 @@
         "venue": "C zone"
     },
     {
-        "id": 4,
+        "id": "4",
         "title": "Staff Appreciation Day",
         "date": "2027-01-15",
         "startTime": "11:00",
@@ -36,7 +36,7 @@
         "venue": "Main Campus Square"
     },
     {
-        "id": 5,
+        "id": "5",
         "title": "Annual Safety Inspection",
         "date": "2027-02-20",
         "startTime": "9:00",

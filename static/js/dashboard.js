@@ -1,79 +1,43 @@
-//Yeung Chin To 22084296D, WANG Haoyu 22102084D
-let events = [
-    {
-        "title": "Free Car Wash",
-        "dateTime": "2026-10-10, 10:00 AM - 12:00 PM",
-        "description": "Free Car Wash is provided for all teaching fellows.",
-        "venue": "A zone"
-    },
-    {
-        "title": "Free Car Parking",
-        "dateTime": "2026-11-10, 10:00 AM - 11:00 PM",
-        "description": "Free Car Parking is provided for all teaching fellows.",
-        "venue": "All zone"
-    },
-    {
-        "title": "Overhaul of equipment",
-        "dateTime": "2026-12-10, 10:00 AM - 12:00 PM",
-        "description": "C zone is temporarily closed for maintenance.",
-        "venue": "C zone"
-    }
-];
-
-document.addEventListener('DOMContentLoaded', () => {
-    const userJson = localStorage.getItem('currentUser');
-    if (!userJson) {
-        alert('Please login');
-        window.location.href = 'login.html';
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    loadEvents();
+    setupEventListeners();
 });
 
-function displayEvents(eventList) {
-    const listGroup = document.querySelector('.list-group');
-    listGroup.innerHTML = '';
+function setupEventListeners() {
+    document.getElementById('search').addEventListener('input', filterEvents);
+}
 
-    eventList.forEach(event => {
-        const eventItem = document.createElement('a');
-        eventItem.className = 'list-group-item list-group-item-action';
-        eventItem.href = '#';
+async function loadEvents() {
+    try {
+        const response = await fetch('/event/all');
+        const events = await response.json();
+        displayEvents(events);
+    } catch (error) {
+        console.error('Error loading events:', error);
+    }
+}
 
-        eventItem.innerHTML = `
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">${event.title}</h5>
-                <small>${event.dateTime}</small>
-            </div>
-            <p class="mb-1">${event.description}</p>
-            <small>${event.venue}</small>
+function displayEvents(events) {
+    const eventList = document.querySelector('.list-group');
+    eventList.innerHTML = '';
+    events.forEach(event => {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'list-group-item';
+        eventElement.innerHTML = `
+            <h5>${event.id}. ${event.title}</h5>
+            <p>Date: ${event.date}, Time: ${event.startTime} - ${event.endTime}</p>
+            <p>Venue: ${event.venue}</p>
+            <p>${event.description}</p>
         `;
-
-        listGroup.appendChild(eventItem);
+        eventList.appendChild(eventElement);
     });
 }
 
 function filterEvents() {
-    const searchInput = document.getElementById('search').value.toLowerCase();
-    const filteredEvents = events.filter(event =>
-        event.title.toLowerCase().includes(searchInput) ||
-        event.description.toLowerCase().includes(searchInput) ||
-        event.venue.toLowerCase().includes(searchInput)
-    );
-    displayEvents(filteredEvents);
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const events = document.querySelectorAll('.list-group-item');
+    events.forEach(event => {
+        const text = event.textContent.toLowerCase();
+        event.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
 }
-
-document.getElementById('search').addEventListener('input', filterEvents);
-
-displayEvents(events);
-
-// fetch('events.json')
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         return response.json();
-//     })
-//     .then(data => {
-//         events = data;
-//         displayEvents(events);
-//     })
-//     .catch(error => console.error('Error fetching events:', error));
-//
