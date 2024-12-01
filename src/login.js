@@ -126,8 +126,33 @@ route.post('/updateProfile', form.none(), async (req, res) => {
 
     const { userid, email, password, nickname, gender, birthdate, userimg } = req.body;
 
+    // 验证必填字段
+    if (!userid || !email) {
+        return res.status(400).json({
+            status: "failed",
+            message: "Missing required fields"
+        });
+    }
+
     try {
-        const success = await update_user(userid, password, nickname, email, gender, birthdate, req.session.role, true, userimg);
+        // 获取当前用户信息
+        const currentUser = await fetch_user(req.session.userid);
+        
+        // 如果没有提供新密码，使用当前密码
+        const updatedPassword = password || currentUser.password;
+
+        const success = await update_user(
+            userid, 
+            updatedPassword, 
+            nickname || currentUser.nickname, 
+            email, 
+            gender || currentUser.gender, 
+            birthdate || currentUser.birthdate, 
+            currentUser.role, 
+            currentUser.enabled, 
+            userimg || currentUser.userimg
+        );
+
         if (success) {
             req.session.email = email;
             return res.json({
@@ -148,6 +173,7 @@ route.post('/updateProfile', form.none(), async (req, res) => {
         });
     }
 });
+
 
 route.post('/updateUserImage', async (req, res) => {
     if (!req.session.logged) {

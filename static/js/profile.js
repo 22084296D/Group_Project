@@ -94,6 +94,7 @@ function setupFormSubmission() {
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
+        // 检查密码是否匹配
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
@@ -104,9 +105,13 @@ function setupFormSubmission() {
             const updatedUser = {
                 ...currentUser,
                 userid: name,
-                email: email,
-                password: password // 注意：在实际应用中，应该在服务器端处理密码加密
+                email: email
             };
+
+            // 只有当密码字段不为空时才包含密码
+            if (password) {
+                updatedUser.password = password;
+            }
 
             const response = await fetch('/auth/updateProfile', {
                 method: 'POST',
@@ -119,8 +124,13 @@ function setupFormSubmission() {
             if (response.ok) {
                 const result = await response.json();
                 if (result.status === 'success') {
+                    // 更新本地存储的用户信息，但不包括密码
+                    delete updatedUser.password;
                     localStorage.setItem('currentUser', JSON.stringify(updatedUser));
                     alert("Profile updated successfully!");
+                    // 清空密码字段
+                    document.getElementById('password').value = '';
+                    document.getElementById('confirmPassword').value = '';
                 } else {
                     alert(`Failed to update profile: ${result.message}`);
                 }
