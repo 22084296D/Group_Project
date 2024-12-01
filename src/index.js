@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', login);
 app.use('/payment', paymentRoute);
-app.use('/transaction', transactionHistoryRoute);
+app.use('/transaction_history', transactionHistoryRoute)
 
 app.use(
     '/', 
