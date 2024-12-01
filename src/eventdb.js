@@ -39,21 +39,15 @@ async function create_event(eventDetails) {
     }
 }
 
-async function fetch_events(searchQuery = '') {
+async function fetch_events(eventId) {
     try {
         const events = client.db('parkingdb').collection('events');
         let query = {};
-        if (searchQuery) {
-            query = { $or: [
-                { title: { $regex: searchQuery, $options: 'i' } },
-                { description: { $regex: searchQuery, $options: 'i' } },
-                { venue: { $regex: searchQuery, $options: 'i' } }
-            ]};
-        }
-        const eventsList = await events.find(query).toArray();
+        if (eventId) query.id = eventId;
+        const eventList = await events.find(query).toArray();
 
-        return eventsList.map(event => ({
-            id: event._id,
+        return eventList.map(event => ({
+            id: event.id,
             title: event.title,
             dateTime: event.dateTime,
             description: event.description,
@@ -65,6 +59,24 @@ async function fetch_events(searchQuery = '') {
     }
 }
 
-export { init_eventdb, create_event, fetch_events };
+async function delete_event(eventId) {
+    try {
+        const events = client.db('parkingdb').collection('events');
+        const result = await events.deleteOne({ id: eventId });
+
+        if (result.deletedCount === 1) {
+            console.log(`Successfully deleted event with id ${eventId}`);
+            return true;
+        } else {
+            console.log(`No event found with id ${eventId}`);
+            return false;
+        }
+    } catch (err) {
+        console.error('Error deleting event:', err);
+        return false;
+    }
+}
+
+export { init_eventdb, create_event, fetch_events, delete_event };
 
 

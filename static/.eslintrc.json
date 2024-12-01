@@ -13,5 +13,8 @@
   }, 
   "rules": { 
     "no-unused-vars": "off" 
-  } 
+  },
+  "globals": {
+    "bootstrap": "readonly"
+  }
 }
