@@ -47,21 +47,25 @@ async function validate_user(userid, password) {
     }
 }
 
-async function update_user(userid, password, role, enabled) {
+async function update_user(userid, password, nickname, email, gender, birthdate, role = 'user', enabled = true) {
     const usersCollection = client.db('parkingdb').collection('users');
 
-    const updateData = { 
-        $set: {
-            password: password,
-            role: role,
-            enabled: enabled
-        }
+    const userData = { 
+        userid: userid,
+        password: password,
+        nickname: nickname,
+        email: email,
+        gender: gender,
+        birthdate: birthdate,
+        profile_image: "static/assets/profile.jpg",
+        role: role,
+        enabled: enabled,
     };
 
     try {
         const result = await usersCollection.updateOne(
             { userid: userid },
-            updateData,
+            { $set: userData },
             { upsert: true }
         );
 
