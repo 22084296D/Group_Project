@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUser = JSON.parse(userJson);
         updatePricing();
     } else {
-        console.error('No user logged in');
-        // 可以在这里添加重定向到登录页面的逻辑
+        alert('Please login');
+        window.location.href = 'login.html';
     }
 });
 
@@ -29,6 +29,8 @@ function updatePricing() {
     } else {
         console.warn('Unknown user role, using default pricing');
     }
+    const pricelist = document.getElementById('price_list');
+    pricelist.textContent = `$${pricePerHour} per hour, $${pricePerDay} per day (More than 10 hours)`;
 }
 
 availableSpaces.forEach(space => {
