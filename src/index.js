@@ -19,9 +19,9 @@ app.use(
 
 app.get('/', (req, res) => {
   if (req.session.logged) {
-      res.redirect('/index.html');
+      res.redirect('/dashboard.html');
   } else {
-      res.redirect('/login.html'); 
+      res.redirect('/index.html'); 
   }
 });
 
