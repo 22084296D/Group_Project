@@ -1,40 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     fetchTransactionHistory();
-});
-
-async function fetchTransactionHistory() {
-    try {
-        const response = await fetch('/transaction/api/transaction-history');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        if (data.status === "success") {
-            displayTransactionHistory(data.data);
-        } else {
-            throw new Error(data.message || 'Failed to fetch transaction history');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to load transaction history. Please try again later.');
-    }
-}
-
-function displayTransactionHistory(history) {
+  });
+  
+function fetchTransactionHistory() {
+    fetch('/transaction/all')
+    .then(response => response.json())
+    .then(data => {
     const tableBody = document.getElementById('transactionTableBody');
-    tableBody.innerHTML = ''; // 清除现有内容
+    tableBody.innerHTML = '';
 
-    history.forEach(transaction => {
+    data.forEach(transaction => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${transaction.userId}</td>
-            <td>${transaction.parkingSpace}</td>
-            <td>${new Date(transaction.startTime).toLocaleString()}</td>
-            <td>${new Date(transaction.endTime).toLocaleString()}</td>
-            <td>$${transaction.totalCost.toFixed(2)}</td>
-            <td>${transaction.paymentMethod}</td>
-            <td>${transaction.status}</td>
+        <td>${transaction.userId || 'N/A'}</td>
+        <td>${transaction.spaceId || 'N/A'}</td>
+        <td>${transaction.startTime ? new Date(transaction.startTime).toLocaleString() : 'N/A'}</td>
+        <td>${transaction.endTime ? new Date(transaction.endTime).toLocaleString() : 'N/A'}</td>
+        <td>${transaction.totalCost !== undefined ? '$' + transaction.totalCost.toFixed(2) : 
+                (transaction.totalcost !== undefined ? '$' + transaction.totalcost.toFixed(2) : 'N/A')}</td>
+        <td>${transaction.paymentMethod || 'N/A'}</td>
+        <td>${transaction.lastFourDigits || 'N/A'}</td>
+        <td>${transaction.status || transaction.Status || 'N/A'}</td>
+        <td>${transaction.timestamp ? new Date(transaction.timestamp).toLocaleString() : 'N/A'}</td>
         `;
         tableBody.appendChild(row);
+    });
+    })
+    .catch(error => {
+    console.error('Error fetching transaction history:', error);
     });
 }
