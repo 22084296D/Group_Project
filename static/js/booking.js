@@ -3,8 +3,10 @@ const availableSpaces = document.querySelectorAll('.available');
 const totalPriceElement = document.getElementById('totalPrice');
 let selectedSpace = null;
 let currentUser = null;
-let pricePerHour = 15; // 默认普通用户每小时价格
+let pricePerHour = 15;
 let pricePerDay = 150;
+let durationHours = 0;
+let totalPrice = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     const userJson = localStorage.getItem('currentUser');
@@ -46,17 +48,18 @@ function updateTotalPrice() {
         return;
     }
 
-    // 获取预约开始和结束时间
     const startTime = new Date(document.getElementById('startTime').value);
     const endTime = new Date(document.getElementById('endTime').value);
+    if(!isNaN(startTime) && !isNaN(endTime)){
+        durationHours = (endTime - startTime) / (1000 * 60 * 60);
+    }
 
-    // 计算预约时长（小时）
-    const durationHours = (endTime - startTime) / (1000 * 60 * 60);
-
-    let totalPrice = 0;
+    while(durationHours > 24){
+        durationHours -= 24;
+        totalPrice += pricePerDay;
+    }
 
     if (durationHours > 10) {
-        // 超过10小时按一天计算
         totalPrice = pricePerDay;
     } else {
         // 不足一小时向上取整
