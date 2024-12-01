@@ -1,4 +1,4 @@
-// Yeung Chin To 22084296D, WANG Haoyu 22102084D
+// Yeung Chin To 22084296D,WANG Haoyu 22102084D
 import express from 'express';
 import multer from 'multer';
 import { init_userdb, validate_user, fetch_user } from './userdb.js';
