@@ -56,10 +56,33 @@ function checkTimeSelection() {
         timePrompt.style.display = 'none';
         svgContainer.style.display = 'block';
         updateTotalPrice();
+        checkAvailability(startTime, endTime);
     } else {
         timePrompt.style.display = 'block';
         svgContainer.style.display = 'none';
     }
+}
+
+function checkAvailability(startTime, endTime) {
+    fetch(`/transaction/check-availability?startTime=${startTime}&endTime=${endTime}`)
+        .then(response => response.json())
+        .then(bookedSpaces => {
+            // 重置所有停车位状态
+            document.querySelectorAll('.available, .booked').forEach(space => {
+                space.classList.remove('booked');
+                space.classList.add('available');
+            });
+
+            // 标记已预订的停车位
+            bookedSpaces.forEach(spaceId => {
+                const space = document.getElementById(spaceId);
+                if (space) {
+                    space.classList.remove('available');
+                    space.classList.add('booked');
+                }
+            });
+        })
+        .catch(error => console.error('Error checking availability:', error));
 }
 
 function updateTotalPrice() {
