@@ -3,17 +3,17 @@ import client from './dbclient.js';
 
 async function init_historydb() {
     try {
-      const history = client.db('parkingdb').collection('history');
-      const count = await history.countDocuments();
-  
-      if (count === 0) {
-        const data = await fs.readFile('tran_history.json', 'utf-8');
-        const transData = JSON.parse(data);
-        const result = await history.insertMany(transData);
-        console.log(`Added ${result.insertedCount} history`);
-      }
+        const history = client.db('parkingdb').collection('history');
+        const transcount = await history.countDocuments();
+
+        if (transcount === 0) {
+            const readtransdata = await fs.readFile('tran_history.json', 'utf-8');
+            const transData = JSON.parse(readtransdata);
+            const result = await history.insertMany(transData);
+            console.log(`Initially added ${result.insertedCount} history`);
+        }
     } catch (err) {
-      console.error('Unable to initialize the database!', err);
+        console.error('Unable to initialize the database!', err);
     }
 }
 init_historydb().catch(console.dir);

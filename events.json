@@ -1,20 +1,32 @@
 [
     {
-        "title": "Free Car Wash",
-        "dateTime": "2026-10-10, 10:00 AM - 12:00 PM",
-        "description": "Free Car Wash is provided for all teaching fellows.",
-        "venue": "A zone"
+    "title": "Free Car Wash",
+    "dateTime": "2026-10-10, 10:00 AM - 12:00 PM",
+    "description": "Free Car Wash is provided for all teaching fellows.",
+    "venue": "A zone"
     },
     {
-        "title": "Free Car Parking",
-        "dateTime": "2026-11-10, 10:00 AM - 11:00 PM",
-        "description": "Free Car Pariking is provided for all teaching fellows.",
-        "venue": "All zone"
+    "title": "Free Car Parking",
+    "dateTime": "2026-11-10, 10:00 AM - 11:00 PM",
+    "description": "Free Car Parking is provided for all teaching fellows.",
+    "venue": "All zone"
     },
     {
-        "title": "Overhaul of equipment",
-        "dateTime": "2026-12-10, 10:00 AM - 12:00 PM",
-        "description": "C zone is temporarily closed for maintenance.",
-        "venue": "C zone"
+    "title": "Overhaul of equipment",
+    "dateTime": "2026-12-10, 10:00 AM - 12:00 PM",
+    "description": "C zone is temporarily closed for maintenance.",
+    "venue": "C zone"
+    },
+    {
+    "title": "Staff Appreciation Day",
+    "dateTime": "2027-01-15, 11:00 AM - 2:00 PM",
+    "description": "A special event to appreciate all staff members with food and activities.",
+    "venue": "Main Campus Square"
+    },
+    {
+    "title": "Annual Safety Inspection",
+    "dateTime": "2027-02-20, 9:00 AM - 5:00 PM",
+    "description": "Mandatory safety inspection for all parking facilities.",
+    "venue": "All parking zones"
     }
 ]
