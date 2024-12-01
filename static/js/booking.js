@@ -68,6 +68,11 @@ function checkAvailability(startTime, endTime) {
         .then(response => response.json())
         .then(bookedSpaces => {
             // 重置所有停车位状态
+            if (new Date(startTime) >= new Date(endTime)) {
+                alert('End time must be after start time.');
+                window.location.href = 'booking.html';
+                return;
+            }
             document.querySelectorAll('.available, .booked').forEach(space => {
                 space.classList.remove('booked');
                 space.classList.add('available');
