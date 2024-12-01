@@ -65,6 +65,19 @@
     </header>
     <div class="container mt-5">
         <h2 class="mb-4">Transaction History</h2>
+        <form id="searchForm" class="mb-3">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="userIdSearch" placeholder="User ID">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="spaceIdSearch" placeholder="Space ID">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -74,7 +87,9 @@
                     <th>End Time</th>
                     <th>Total Cost</th>
                     <th>Payment Method</th>
+                    <th>Last Four Digits</th>
                     <th>Status</th>
+                    <th>Timestamp</th>
                 </tr>
             </thead>
             <tbody id="transactionTableBody">

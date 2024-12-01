@@ -39,10 +39,26 @@ async function update_history(transactionDetails) {
     }
 }
 
-async function fetch_history() {
+async function fetch_history(userId, spaceId) {
     try {
         const history = client.db('parkingdb').collection('history');
-        return await history.find({}).toArray();
+        let query = {};
+        if (userId) query.userId = userId;
+        if (spaceId) query.spaceId = spaceId;
+
+        const transactions = await history.find(query).toArray();
+        
+        return transactions.map(transaction => ({
+            userId: transaction.userId,
+            spaceId: transaction.spaceId,
+            startTime: transaction.startTime,
+            endTime: transaction.endTime,
+            totalCost: transaction.totalCost || transaction.totalcost || 0,
+            paymentMethod: transaction.paymentMethod,
+            lastFourDigits: transaction.lastFourDigits,
+            status: transaction.status || transaction.Status,
+            timestamp: transaction.timestamp
+        }));
     } catch (err) {
         console.error('Unable to fetch from database!', err);
         return [];
