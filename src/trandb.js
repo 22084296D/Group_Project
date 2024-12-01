@@ -45,12 +45,7 @@ async function fetch_history(userId, spaceId) {
         let query = {};
         if (userId) query.userId = userId;
         if (spaceId) query.spaceId = spaceId;
-
-        console.log('Database query:', query);
-
         const transactions = await history.find(query).toArray();
-        
-        console.log('Raw transactions:', transactions);
 
         return transactions.map(transaction => ({
             userId: transaction.userId,

@@ -12,19 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function fetchTransactionHistory() {
     const userId = document.getElementById('userIdSearch').value.trim();
     const spaceId = document.getElementById('spaceIdSearch').value.trim();
-
-    console.log('Searching with:', { userId, spaceId });
-
     const queryParams = new URLSearchParams();
     if (userId) queryParams.append('userId', userId);
     if (spaceId) queryParams.append('spaceId', spaceId);
-
-    console.log('Request URL:', `/transaction/all?${queryParams.toString()}`);
-
     fetch(`/transaction/all?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
-            console.log('Received data:', data);
             const tableBody = document.getElementById('transactionTableBody');
             tableBody.innerHTML = '';
 
