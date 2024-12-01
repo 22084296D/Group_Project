@@ -1,21 +1,21 @@
 //Yeung Chin To 22084296D, WANG Haoyu 22102084D
-fetch('/auth/me').then(response => {
-    if (!response.ok) {
-        alert("Please login");
-        window.open('/login.html', '_self');
+document.addEventListener('DOMContentLoaded', function() {
+    const headerContent = document.getElementById('headerContent');
+    const logintext = document.getElementById('logintext');
+    // 检查用户是否登录（这里需要根据您的登录机制来实现）
+    function isLoggedIn() {
+        // 示例：检查localStorage中是否有用户信息
+        return localStorage.getItem('currentUser') !== null;
     }
-});
 
-document.getElementById('logoutButton').addEventListener('click', function() {
-    const confirmLogout = confirm("Confirm to logout?");
-    if (confirmLogout) {
-        fetch('/auth/logout', {
-            method: 'POST'
-        })
-        .then(response => {
-            if (response.ok) {
-                window.open('/login.html', '_self');
-            } 
-        })
+    if (isLoggedIn()) {
+        headerContent.innerHTML = `
+            <a href="dashboard.html" class="mx-3 nav-link">Dashboard</a>
+            <a href="booking.html" class="mx-3 nav-link">Booking</a>
+        `;
+        logintext.classList.add('d-none');
+    } else {
+        
+        headerContent.textContent = 'Login to unlock your parking experiment';
     }
 });

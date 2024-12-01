@@ -16,3 +16,10 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
         console.error('Logout error:', error);
     }
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const userJson = localStorage.getItem('currentUser');
+    if (!userJson) {
+        alert('Please login');
+        window.location.href = 'login.html';
+    }
+});
