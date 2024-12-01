@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import fs from 'fs/promises';
-import { init_historydb, update_history, fetch_history } from './trandb';
+import { init_historydb, update_history, fetch_history } from './trandb.js';
 
 const route = express.Router();
 const form = multer();
