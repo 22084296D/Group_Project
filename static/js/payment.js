@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (paymentSuccessful) {
             paymentStatus.innerHTML = '<div class="alert alert-success">Payment successful! Your order has been confirmed.</div>';
-            updateElectronicTicket(bookingDetails);
             electronicTicket.style.display = 'block';
         } else {
             paymentStatus.innerHTML = '<div class="alert alert-danger">Payment failed. Please try again.</div>';
@@ -40,7 +39,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function processPayment(cardNumber, cardName, expiryDate, cvv) {
-        return true;
+        try {
+            const response = await fetch('/payment/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cardNumber,
+                    cardName,
+                    expiryDate,
+                    cvv,
+                    bookingDetails: JSON.parse(localStorage.getItem('bookingDetails'))
+                }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                updateElectronicTicket(result.ticket);
+            }
+            return result.success;
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            return false;
+        }
     }
 
     function updateElectronicTicket(details) {
@@ -55,10 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         ">
             <h4 style="color: #007bff; margin-bottom: 15px;">Electronic Ticket</h4>
+            <p><strong>User:</strong> ${details.userId}</p>
             <p><strong>Parking Space:</strong> ${details.spaceId}</p>
-            <p><strong>Start Time:</strong> ${new Date(bookingDetails.startTime).toLocaleString()}</p>
-            <p><strong>End Time:</strong> ${new Date(bookingDetails.endTime).toLocaleString()}</p>
-            <p><strong>Order Status:</strong> Confirmed</p>
+            <p><strong>Start Time:</strong> ${new Date(details.startTime).toLocaleString()}</p>
+            <p><strong>End Time:</strong> ${new Date(details.endTime).toLocaleString()}</p>
+            <p><strong>Total Cost:</strong> $${details.totalCost.toFixed(2)}</p>
+            <p><strong>Order Status:</strong> ${details.status}</p>
+        </div>
         `;
     }
 });

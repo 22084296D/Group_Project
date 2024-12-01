@@ -36,6 +36,7 @@ img.logo {
 }
 .available {
     fill: green;
+    cursor: pointer;
 }
 .booked {
     fill:red;
