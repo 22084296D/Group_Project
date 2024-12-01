@@ -63,4 +63,5 @@ route.get('/history/:userId', async (req, res) => {
     }
 });
 
+
 export default route;
