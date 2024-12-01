@@ -1,7 +1,7 @@
 // Yeung Chin To 22084296D,WANG Haoyu 22102084D
 import express from 'express';
 import multer from 'multer';
-import { init_userdb, validate_user, fetch_user, update_user, username_exist } from './userdb.js';
+import { init_userdb, validate_user, fetch_user, update_user, username_exist, update_user_image } from './userdb.js';
 
 const form = multer();
 const route = express.Router();
@@ -26,7 +26,6 @@ route.post('/login', form.none(), async (req, res) => {
 
         req.session.userid = user.userid;
         req.session.role = user.role;
-        req.session.email = user.email;
         req.session.logged = true;
         req.session.timestamp = Date.now();
 
@@ -35,7 +34,8 @@ route.post('/login', form.none(), async (req, res) => {
             user: {
                 userid: user.userid,
                 role: user.role,
-                email: user.email
+                email: user.email,
+                userimg: user.userimg
             }
         });
     } else {
@@ -67,7 +67,8 @@ route.get('/me', async (req, res) => {
                 user: {
                     userid: user.userid,
                     role: user.role,
-                    email: user.email
+                    email: user.email,
+                    userimg: user.userimg
                 }
             });
         } else {
@@ -112,6 +113,78 @@ route.post('/register', form.none(), async (req, res) => {
         });
     } else {
         return res.status(500).json({ status: 'failed', message: 'Account created but unable to save into the database.' });
+    }
+});
+
+route.post('/updateProfile', form.none(), async (req, res) => {
+    if (!req.session.logged) {
+        return res.status(401).json({
+            status: "failed",
+            message: "Unauthorized"
+        });
+    }
+
+    const { userid, email, password, nickname, gender, birthdate, userimg } = req.body;
+
+    try {
+        const success = await update_user(userid, password, nickname, email, gender, birthdate, req.session.role, true, userimg);
+        if (success) {
+            req.session.email = email;
+            return res.json({
+                status: "success",
+                message: "Profile updated successfully"
+            });
+        } else {
+            return res.status(500).json({
+                status: "failed",
+                message: "Failed to update profile"
+            });
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        return res.status(500).json({
+            status: "failed",
+            message: "An error occurred while updating the profile"
+        });
+    }
+});
+
+route.post('/updateUserImage', async (req, res) => {
+    if (!req.session.logged) {
+        return res.status(401).json({
+            status: "failed",
+            message: "Unauthorized"
+        });
+    }
+
+    const { userimg } = req.body;
+
+    if (!userimg) {
+        return res.status(400).json({
+            status: "failed",
+            message: "Missing userimg"
+        });
+    }
+
+    try {
+        const success = await update_user_image(req.session.userid, userimg);
+        if (success) {
+            return res.json({
+                status: "success",
+                message: "User image updated successfully"
+            });
+        } else {
+            return res.status(500).json({
+                status: "failed",
+                message: "Failed to update user image"
+            });
+        }
+    } catch (error) {
+        console.error('Error updating user image:', error);
+        return res.status(500).json({
+            status: "failed",
+            message: "An error occurred while updating the user image"
+        });
     }
 });
 

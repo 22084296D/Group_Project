@@ -1,6 +1,8 @@
 //Yeung Chin To 22084296D, WANG Haoyu 22102084D
 document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
+    setupImageUpload();
+    setupFormSubmission();
 });
 
 function checkLoginStatus() {
@@ -15,43 +17,54 @@ function checkLoginStatus() {
 function displayUserInfo(userData) {
     document.getElementById('name').value = userData.userid || '';
     document.getElementById('email').value = userData.email || '';
-    updateProfileImage(userData.userid);
+    updateProfileImage(userData.userimg);
 }
 
-function updateProfileImage(userid) {
+function updateProfileImage(userimg) {
     const profileImgs = document.querySelectorAll('#profileimg');
     if (profileImgs.length > 0) {
-        // 设置默认头像
-        let imagePath = 'assets/profile.png';
-        
-        // 如果用户ID存在，尝试加载对应的头像
-        if (userid) {
-            imagePath = `assets/${userid}.jpg`;
-        }
-        
-        // 检查图片是否存在，如果不存在则使用默认头像
-        fetch(imagePath)
-            .then(response => {
-                if (response.ok) {
-                    profileImgs.forEach(img => img.src = imagePath);
-                } else {
-                    console.log('User specific image not found, using default.');
-                    profileImgs.forEach(img => img.src = 'assets/profile.png');
-                }
-            })
-            .catch(error => {
-                console.error('Error loading profile image:', error);
-                profileImgs.forEach(img => img.src = 'assets/profile.png');
+        if (userimg) {
+            // 使用 Base64 编码的用户图片
+            profileImgs.forEach(img => {
+                img.src = userimg.startsWith('data:image') ? userimg : `data:image/jpeg;base64,${userimg}`;
             });
+        } else {
+            // 如果没有用户图片，使用默认头像
+            profileImgs.forEach(img => img.src = 'assets/profile.png');
+        }
     }
 }
 
+function setupImageUpload() {
+    document.getElementById('profileImage').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                updateProfileImage(base64Image);
+                updateCurrentUserImage(base64Image);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+function updateCurrentUserImage(newImage) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+        currentUser.userimg = newImage;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        console.log('User image updated in localStorage');
+    }
+}
 
 function redirectToLogin() {
     alert('Please log in to view your profile.');
     window.location.href = 'index.html';
 }
 
+// 保留登出按钮的事件监听器
 document.getElementById('logoutButton').addEventListener('click', async () => {
     try {
         const response = await fetch('/auth/logout', {
@@ -70,3 +83,53 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
         console.error('Logout error:', error);
     }
 });
+
+function setupFormSubmission() {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        try {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const updatedUser = {
+                ...currentUser,
+                userid: name,
+                email: email,
+                password: password // 注意：在实际应用中，应该在服务器端处理密码加密
+            };
+
+            const response = await fetch('/auth/updateProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedUser)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                if (result.status === 'success') {
+                    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+                    alert("Profile updated successfully!");
+                } else {
+                    alert(`Failed to update profile: ${result.message}`);
+                }
+            } else {
+                alert("Failed to update profile. Please try again.");
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert("An error occurred while updating the profile.");
+        }
+    });
+}
