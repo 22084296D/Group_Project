@@ -70,4 +70,3 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
         console.error('Logout error:', error);
     }
 });
-
