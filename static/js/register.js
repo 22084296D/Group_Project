@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 document.getElementById('registerButton').addEventListener('click', async function () {
     const userid = document.getElementById('userid').value.trim();
     const password = document.getElementById('password').value.trim();
