@@ -1,4 +1,4 @@
-//Yeung Chin To 22084296D, WANG Haoyu 22102084D
+//Yeung Chin To 22084296D,WANG Haoyu 22102084D
 document.getElementById('loginButton').addEventListener('click', async () => {
     const userid = document.getElementById('userid').value;
     const password = document.getElementById('password').value;
