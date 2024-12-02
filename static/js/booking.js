@@ -67,7 +67,6 @@ function checkAvailability(startTime, endTime) {
     fetch(`/transaction/check-availability?startTime=${startTime}&endTime=${endTime}`)
         .then(response => response.json())
         .then(bookedSpaces => {
-            // 重置所有停车位状态
             if (new Date(startTime) >= new Date(endTime)) {
                 alert('End time must be after start time.');
                 window.location.href = 'booking.html';
@@ -77,8 +76,6 @@ function checkAvailability(startTime, endTime) {
                 space.classList.remove('booked');
                 space.classList.add('available');
             });
-
-            // 标记已预订的停车位
             bookedSpaces.forEach(spaceId => {
                 const space = document.getElementById(spaceId);
                 if (space) {
@@ -109,12 +106,10 @@ function updateTotalPrice() {
     if (durationHours > 10) {
         totalPrice += pricePerDay;
     } else {
-        // 不足一小时向上取整
         const roundedHours = Math.ceil(durationHours);
         totalPrice = Math.min(roundedHours * pricePerHour, pricePerDay);
     }
 
-    // 更新总价显示
     const totalPriceElement = document.getElementById('totalPrice');
     totalPriceElement.textContent = `${totalPrice.toFixed(2)}`;
 }

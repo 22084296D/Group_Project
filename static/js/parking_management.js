@@ -1,3 +1,4 @@
+//Yeung Chin To 22084296D, WANG Haoyu 22102084D
 document.addEventListener("DOMContentLoaded", () => {
     const checkAvailabilityBtn = document.getElementById('checkAvailability');
     checkAvailabilityBtn.addEventListener('click', checkAvailability);
@@ -23,7 +24,6 @@ function checkAvailability() {
         return;
     }
 
-    // Convert times to ISO format
     const startISO = new Date(startTime).toISOString();
     const endISO = new Date(endTime).toISOString();
 
@@ -39,7 +39,6 @@ function checkAvailability() {
         .then(bookedSpaces => {
             console.log('Received booked spaces:', bookedSpaces);
 
-            // Reset all spaces to available
             for (let row = 'A'.charCodeAt(0); row <= 'F'.charCodeAt(0); row++) {
                 for (let col = 0; col <= 9; col++) {
                     const spaceId = `${String.fromCharCode(row)}${col}`;
@@ -51,7 +50,6 @@ function checkAvailability() {
                 }
             }
 
-            // Set conflicting spaces to booked
             bookedSpaces.forEach(spaceId => {
                 const space = document.getElementById(spaceId);
                 if (space) {

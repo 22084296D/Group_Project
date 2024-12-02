@@ -37,7 +37,6 @@ route.post('/create', form.none(), async (req, res) => {
     }
 });
 
-// 删除事件
 route.delete('/delete/:id', async (req, res) => {
     const eventId = parseInt(req.params.id);
     const result = await delete_event(eventId);

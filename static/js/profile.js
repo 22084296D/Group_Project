@@ -9,7 +9,6 @@ function checkLoginStatus() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentUser) {
         displayUserInfo(currentUser);
-        // 检查用户角色并显示/隐藏管理员链接
         const adminLink = document.getElementById('adminLink');
         if (adminLink) {
             if (currentUser.role === 'admin') {

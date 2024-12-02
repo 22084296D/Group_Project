@@ -1,7 +1,7 @@
 // Yeung Chin To 22084296D,WANG Haoyu 22102084D
 import express from 'express';
 import multer from 'multer';
-import { init_userdb, validate_user, fetch_user, update_user, username_exist, update_user_image } from './userdb.js';
+import { init_userdb, validate_user, fetch_users, update_user, username_exist, update_user_image } from './userdb.js';
 
 const form = multer();
 const route = express.Router();
@@ -60,7 +60,7 @@ route.post('/logout', (req, res) => {
 
 route.get('/me', async (req, res) => {
     if (req.session.logged) {
-        const user = await fetch_user(req.session.userid);
+        const user = await fetch_users(req.session.userid);
         if (user) {
             return res.json({
                 status: "success",
@@ -135,10 +135,7 @@ route.post('/updateProfile', form.none(), async (req, res) => {
     }
 
     try {
-        // 获取当前用户信息
-        const currentUser = await fetch_user(req.session.userid);
-        
-        // 如果没有提供新密码，使用当前密码
+        const currentUser = await fetch_users(req.session.userid);
         const updatedPassword = password || currentUser.password;
 
         const success = await update_user(

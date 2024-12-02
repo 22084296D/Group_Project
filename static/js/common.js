@@ -18,12 +18,10 @@ function updateHeaderProfileImage() {
 
   profileImgs.forEach(img => {
       if (currentUser && currentUser.userimg) {
-          // 使用用户的头像
           img.src = currentUser.userimg.startsWith('data:image') 
               ? currentUser.userimg 
               : `data:image/jpeg;base64,${currentUser.userimg}`;
       } else {
-          // 使用默认头像
           img.src = 'assets/profile.png';
       }
   });
