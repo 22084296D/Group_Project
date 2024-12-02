@@ -47,21 +47,21 @@ async function validate_user(userid, password) {
     }
 }
 
-async function fetch_user(userid) {
-    const usersCollection = client.db('parkingdb').collection('users');
-
+async function fetch_users() {
     try {
-        const user = await usersCollection.findOne({ userid: userid });
-        return user;
+        const usersCollection = client.db('parkingdb').collection('users');
+        return await usersCollection.find({}, {
+            projection: { _id: 0, userid: 1, nickname: 1, email: 1, gender: 1, birthdate: 1, role: 1 }
+        }).toArray();
     } catch (err) {
-        console.error('Unable to fetch from database!', err);
-        return null;
+        console.error('Unable to fetch users from database!', err);
+        return [];
     }
 }
 
 async function username_exist(userid) {
     try {
-        const user = await fetch_user(userid);
+        const user = await fetch_users(userid);
         return user !== null;
     } catch (err) {
         console.error('Unable to fetch from database!', err);
@@ -128,6 +128,38 @@ async function update_user_image(userid, userimg) {
     }
 }
 
-export { init_userdb, validate_user, fetch_user, update_user, username_exist, update_user_image };
+async function create_user(user) {
+    try {
+        const usersCollection = client.db('parkingdb').collection('users');
+        const result = await usersCollection.insertOne(user);
+        if (result.insertedId) {
+            console.log('Added 1 user');
+            return true;
+        }
+        console.log('Failed to add user');
+        return false;
+    } catch (err) {
+        console.error('Error adding user:', err);
+        return false;
+    }
+}
+
+async function delete_user(userid) {
+    try {
+        const usersCollection = client.db('parkingdb').collection('users');
+        const result = await usersCollection.deleteOne({ userid: userid });
+        if (result.deletedCount === 1) {
+            console.log(`Successfully deleted user ${userid}`);
+            return true;
+        }
+        console.log(`No user found with id ${userid}`);
+        return false;
+    } catch (err) {
+        console.error('Error deleting user:', err);
+        return false;
+    }
+}
+
+export { init_userdb, validate_user, fetch_users, update_user, username_exist, update_user_image, create_user, delete_user };
 
 init_userdb().catch(console.dir);
