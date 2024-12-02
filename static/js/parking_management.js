@@ -13,24 +13,45 @@ document.addEventListener("DOMContentLoaded", () => {
 function checkAvailability() {
     const startTime = document.getElementById('startTime').value;
     const endTime = document.getElementById('endTime').value;
-
+    if (new Date(startTime) >= new Date(endTime)) {
+        alert('End time must be after start time.');
+        window.location.href = 'parking_management.html';
+        return;
+    }
     if (!startTime || !endTime) {
         alert('Please select both start and end times.');
         return;
     }
 
-    // 将时间转换为 ISO 格式
+    // Convert times to ISO format
     const startISO = new Date(startTime).toISOString();
     const endISO = new Date(endTime).toISOString();
 
-    fetch(`/parking-management/check-availability?startTime=${encodeURIComponent(startISO)}&endTime=${encodeURIComponent(endISO)}`)
-        .then(response => response.json())
-        .then(bookedSpaces => {
-            document.querySelectorAll('.available, .booked').forEach(space => {
-                space.classList.remove('booked');
-                space.classList.add('available');
-            });
+    console.log('Sending request with times:', { startISO, endISO });
 
+    fetch(`/parking-management/check-availability?startTime=${encodeURIComponent(startISO)}&endTime=${encodeURIComponent(endISO)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(bookedSpaces => {
+            console.log('Received booked spaces:', bookedSpaces);
+
+            // Reset all spaces to available
+            for (let row = 'A'.charCodeAt(0); row <= 'F'.charCodeAt(0); row++) {
+                for (let col = 0; col <= 9; col++) {
+                    const spaceId = `${String.fromCharCode(row)}${col}`;
+                    const space = document.getElementById(spaceId);
+                    if (space) {
+                        space.classList.remove('booked');
+                        space.classList.add('available');
+                    }
+                }
+            }
+
+            // Set conflicting spaces to booked
             bookedSpaces.forEach(spaceId => {
                 const space = document.getElementById(spaceId);
                 if (space) {
@@ -39,8 +60,12 @@ function checkAvailability() {
                 }
             });
         })
-        .catch(error => console.error('Error checking availability:', error));
+        .catch(error => {
+            console.error('Error checking availability:', error);
+            alert('Error checking availability. Please try again.');
+        });
 }
+
 
 
 function bookSpace(spaceId) {
@@ -56,7 +81,7 @@ function bookSpace(spaceId) {
         spaceId: spaceId,
         startTime: new Date(startTime).toISOString(),
         endTime: new Date(endTime).toISOString(),
-        userId: 'admin', // 使用固定的 admin 用户 ID
+        userId: 'admin',
         status: 'booked'
     };
 
