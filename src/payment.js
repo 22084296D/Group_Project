@@ -14,12 +14,9 @@ route.post('/process', async (req, res) => {
     try {
         const { cardNumber, cardName, expiryDate, cvv, bookingDetails } = req.body;
 
-        // 这里应该有实际的支付处理逻辑
-        // 为了演示，我们假设支付总是成功的
         const paymentSuccessful = true;
 
         if (paymentSuccessful) {
-            // 准备交易详情
             const transactionDetails = {
                 userId: bookingDetails.user,
                 spaceId: bookingDetails.spaceId,
@@ -31,7 +28,6 @@ route.post('/process', async (req, res) => {
                 status: 'Confirmed'
             };
 
-            // 更新历史记录
             const updateResult = await update_history(transactionDetails);
 
             if (updateResult) {
@@ -52,7 +48,6 @@ route.post('/process', async (req, res) => {
     }
 });
 
-// 获取用户交易历史的路由
 route.get('/history/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;

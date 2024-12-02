@@ -135,10 +135,7 @@ route.post('/updateProfile', form.none(), async (req, res) => {
     }
 
     try {
-        // 获取当前用户信息
         const currentUser = await fetch_users(req.session.userid);
-        
-        // 如果没有提供新密码，使用当前密码
         const updatedPassword = password || currentUser.password;
 
         const success = await update_user(

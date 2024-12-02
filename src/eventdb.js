@@ -59,7 +59,7 @@ async function fetch_events(eventId) {
 
 async function delete_event(eventId) {
     try {
-        const result = await eventdb.deleteOne({ id: eventId.toString() }); // 确保 ID 是字符串
+        const result = await eventdb.deleteOne({ id: eventId.toString() });
         if (result.deletedCount === 1) {
             console.log(`Successfully deleted event ${eventId}`);
             return true;

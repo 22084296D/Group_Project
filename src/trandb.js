@@ -50,7 +50,7 @@ async function fetch_history(userId, spaceId) {
         const transactions = await history.find(query).toArray();
 
         return transactions.map(transaction => ({
-            _id: transaction._id,  // 确保包含 _id 字段
+            _id: transaction._id, 
             userId: transaction.userId,
             spaceId: transaction.spaceId,
             startTime: transaction.startTime,

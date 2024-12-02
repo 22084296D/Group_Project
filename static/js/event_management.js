@@ -60,7 +60,6 @@ async function createEvent(e) {
         if (result.success) {
             alert('Event created successfully');
             loadEvents();
-            // 使用条件检查来关闭模态框
             const modal = document.getElementById('createEventModal');
             if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
@@ -68,7 +67,6 @@ async function createEvent(e) {
                     bootstrapModal.hide();
                 }
             } else {
-                // 如果 bootstrap 不可用，尝试使用原生方法隐藏模态框
                 modal.style.display = 'none';
                 document.body.classList.remove('modal-open');
                 const backdrop = document.querySelector('.modal-backdrop');
@@ -89,7 +87,7 @@ async function createEvent(e) {
 async function deleteEvent(e) {
     const eventId = e.target.dataset.id;
     if (confirm('Are you sure you want to delete this event?')) {
-        e.target.disabled = true; // 禁用按钮
+        e.target.disabled = true; 
         try {
             const response = await fetch(`/event/delete/${eventId}`, {
                 method: 'DELETE'
@@ -105,7 +103,7 @@ async function deleteEvent(e) {
             console.error('Error deleting event:', error);
             alert('Error deleting event');
         } finally {
-            e.target.disabled = false; // 重新启用按钮
+            e.target.disabled = false; 
         }
     }
 }

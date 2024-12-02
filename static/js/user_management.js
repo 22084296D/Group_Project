@@ -65,7 +65,6 @@ async function createUser(e) {
         if (result.success) {
             alert('User created successfully');
             loadUsers();
-            // 使用条件检查来关闭模态框
             const modal = document.getElementById('createUserModal');
             if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
@@ -73,7 +72,6 @@ async function createUser(e) {
                     bootstrapModal.hide();
                 }
             } else {
-                // 如果 bootstrap 不可用，尝试使用原生方法隐藏模态框
                 modal.style.display = 'none';
                 document.body.classList.remove('modal-open');
                 const backdrop = document.querySelector('.modal-backdrop');
@@ -93,7 +91,7 @@ async function createUser(e) {
 async function deleteUser(e) {
     const userid = e.target.dataset.id;
     if (confirm('Are you sure you want to delete this user?')) {
-        e.target.disabled = true; // 禁用按钮
+        e.target.disabled = true; 
         try {
             const response = await fetch(`/user/delete/${userid}`, {
                 method: 'DELETE'
@@ -109,7 +107,7 @@ async function deleteUser(e) {
             console.error('Error deleting user:', error);
             alert('Error deleting user');
         } finally {
-            e.target.disabled = false; // 重新启用按钮
+            e.target.disabled = false;
         }
     }
 }

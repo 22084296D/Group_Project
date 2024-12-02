@@ -72,7 +72,7 @@ function addDeleteEventListeners() {
 }
 
 function deleteTransaction(transactionId) {
-    console.log('Deleting transaction with ID:', transactionId);  // 添加这行
+    console.log('Deleting transaction with ID:', transactionId);
     fetch(`/transaction/delete/${transactionId}`, {
         method: 'DELETE',
     })
@@ -85,7 +85,7 @@ function deleteTransaction(transactionId) {
     .then(data => {
         if (data.success) {
             alert('Transaction deleted successfully');
-            fetchTransactionHistory(); // 重新加载交易历史
+            fetchTransactionHistory();
         } else {
             alert('Failed to delete transaction');
         }
